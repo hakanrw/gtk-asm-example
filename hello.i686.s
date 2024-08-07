@@ -1,3 +1,5 @@
+.section .note.GNU-stack,"",@progbits
+
 .section .rodata
     msg: .asciz "Hello, World!"
     title: .asciz "Message"
@@ -18,17 +20,23 @@
     .global main
 
 main:
-    sub $8, %esp
+    pushl %ebp            # Save base pointer
+    movl %esp, %ebp       # Set up stack frame
 
+    mov $0, %eax
     push $msg
     push $title
     call show_message
     mov %eax, %ebx
 
+    add $8, %esp
+
     mov $0, %eax
-    push %ebx
+    push $0
     push $format
     call printf
+
+    add $8, %esp
 
     cmp $3, %ebx
     je print_abort
@@ -57,8 +65,9 @@ print_ignore:
 print_call:
     mov $0, %eax
     call puts
+    add $4, %esp
 
 _exit:
+    popl %ebp             # Restore base pointer
     mov $0, %eax
-    add $8, %esp
     ret

@@ -4,7 +4,7 @@ S_aarch64 ?= aarch64-none-linux-gnu-
 S_riscv64 ?= riscv64-none-linux-gnu-
 
 CC_x86_64  ?= $(S_x86_64)gcc
-CC_i686    ?= $(S_i386)gcc -m32
+CC_i686    ?= $(S_i386)gcc -m32 -no-pie
 CC_aarch64 ?= $(S_aarch64)gcc
 CC_riscv64 ?= $(S_riscv64)gcc
 
