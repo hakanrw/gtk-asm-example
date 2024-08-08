@@ -18,17 +18,21 @@
     .global main
 
 main:
-    sub $8, %rsp
+    push   %rbp
+    mov    %rsp,%rbp
+    sub    $0x20,%rsp
 
-    mov $title, %rdi
-    mov $msg, %rsi
+    mov $title, %rdx
+    mov $msg, %rcx
     call show_message
     mov %rax, %rbx
 
     mov $0, %rax
-    mov $format, %rdi
-    mov %rbx, %rsi
+    mov $format, %rcx
+    mov %rbx, %rdx
     call printf
+
+    
 
     cmp $3, %rbx
     je print_abort
@@ -39,19 +43,19 @@ main:
     cmp $5, %rbx
     je print_ignore
 
-    mov $unknown, %rdi
+    mov $unknown, %rcx
     jmp print_call
 
 print_abort:
-    mov $abort, %rdi
+    mov $abort, %rcx
     jmp print_call
 
 print_retry:
-    mov $retry, %rdi
+    mov $retry, %rcx
     jmp print_call
 
 print_ignore:
-    mov $ignore, %rdi
+    mov $ignore, %rcx
     jmp print_call
 
 print_call:
@@ -59,6 +63,7 @@ print_call:
     call puts
 
 _exit:
-    mov $0, %rax
-    add $8, %rsp
+    mov    $0x0,%eax
+    add    $0x20,%rsp
+    pop    %rbp
     ret
