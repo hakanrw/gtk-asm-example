@@ -20,8 +20,8 @@ buffer:   .space 128
 main:
     # Function prologue
     addi sp, sp, -16           # Make room on the stack
-    sw ra, 12(sp)              # Save the return address
-    sw s0, 8(sp)               # Save the frame pointer
+    sd ra, 8(sp)              # Save the return address
+    sd s0, 0(sp)               # Save the frame pointer
     mv s0, sp                  # Set the frame pointer
 
     # Call show_message(title, msg)
@@ -67,8 +67,8 @@ print_call:
 
 _exit:
     # Function epilogue
-    lw ra, 12(sp)              # Restore the return address
-    lw s0, 8(sp)               # Restore the frame pointer
+    ld ra, 8(sp)               # Restore the return address
+    ld s0, 0(sp)               # Restore the frame pointer
     addi sp, sp, 16            # Restore the stack pointer
     li a0, 0                   # Load immediate 0 into a0 (exit status)
-    call exit                  # Call exit
+    ret                        # return
